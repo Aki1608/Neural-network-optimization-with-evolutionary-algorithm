@@ -18,7 +18,7 @@ import tensorflow as tf
 #tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 import keras
-from keras.optimizers import Adam
+from keras.optimizers import adam
 import logging
 
 
@@ -153,7 +153,7 @@ def Encoder_Decoder_Net(network, generation_no, network_no):
     d=0 #No. of dropout layer.
     
     Layers = []
-    choice = ['Conv', 'Max_Pool']
+    #choice = ['Conv', 'Max_Pool']
     
     ### TO_DO ###
     ## Chnage the choice option selection.
@@ -314,11 +314,11 @@ def Encoder_Decoder_Net(network, generation_no, network_no):
 def operations_memory (model, network, Kernel_list, generation_no, network_no, time):
     print(f"kernel length: {(Kernel_list)}")
     #From the summery read dimension of all layers and caculate operations and memory usage. 
-    with open(f'model_summary/{time}/Model_summary_{generation_no+1}_{network_no+1}.txt','w') as f:
+    with open(f'model_summery/{time}/Model_summery_{generation_no+1}_{network_no+1}.txt','w') as f:
         # Pass the file handle in as a lambda function to make it callable
         model.summary(print_fn=lambda x: f.write(x + '\n'))
     
-    with open(f'model_summary/{time}/Model_summary_{generation_no+1}_{network_no+1}.txt', 'r') as f:
+    with open(f'model_summery/{time}/Model_summery_{generation_no+1}_{network_no+1}.txt', 'r') as f:
         lines = f.readlines()
 
     memory_para_list = []
@@ -410,7 +410,7 @@ def architecture_info(network, Layers, Feature_Map, memory_per_layer, mac, gener
         time: current time ("current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")") 
     '''
     
-    with xlsxwriter.Workbook(f'model_summary/{time}/Network_info_{generation_no+1}_{network_no+1}new.xlsx') as workbook:
+    with xlsxwriter.Workbook(f'model_summery/{time}/Network_info_{generation_no+1}_{network_no+1}new.xlsx') as workbook:
 
         worksheet = workbook.add_worksheet()
         cell_format = workbook.add_format()
@@ -567,10 +567,10 @@ def train_and_accuracy(network, generation_no, network_no, time):
     
     # Save the model.
     model_json = model.to_json()
-    with open(f'model_summary/{time}/model_{generation_no+1}_{network_no+1}.json', "w") as json_file:
+    with open(f'model_summery/{time}/model_{generation_no+1}_{network_no+1}.json', "w") as json_file:
         json_file.write(model_json)
     # serialize weights to HDF5
-    model.save_weights(f'model_summary/{time}/model_{generation_no+1}_{network_no+1}.h5')
+    model.save_weights(f'model_summery/{time}/model_{generation_no+1}_{network_no+1}.h5')
     logging.info("Saved model to disk")
     
     # Generate test dataset.

@@ -8,10 +8,10 @@ import datetime
 current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
 import os
-os.mkdir(f'model_summary/{current_time}')
+os.mkdir(f'model_summery/{current_time}')
 
 import logging
-logging.basicConfig(filename=f'model_summary/{current_time}/example.log', format='%(asctime)s %(levelname)-8s %(message)s', 
+logging.basicConfig(filename=f'model_summery/{current_time}/example.log', format='%(asctime)s %(levelname)-8s %(message)s', 
                     level = logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 
 from EA_Optimizer import Optimizer
@@ -25,7 +25,7 @@ def train_networks(networks,generation_no, time):
     Train each network.
     
     Args:
-        network (list): list of parameters of network.
+        network (list): Current population of networks
         dataset (str): Dataset to use for training/evaluating
     '''
     for i in range(len(networks)):
@@ -46,16 +46,7 @@ def train_networks(networks,generation_no, time):
 
 def get_average_accuracy(networks):
     
-    '''
-    Get the average accuracy for each generation.
-    
-    Args:
-        networks (list): list of network parametrs.
-        
-    '''
-    
     logging.debug('In average accuracy in main. calculating.')
-    
     total_accuracy = 0
     for network in networks:
         total_accuracy += network.accuracy
@@ -78,14 +69,14 @@ def generate(generations, population, para_choice, time):
         dataset (str): Dataset to use for training/evaluating
     '''
     
-    #logging.debug('Before optimizer. IN main.')
+    logging.debug('Before optimizer. IN main.')
     optimizer = Optimizer(para_choice)
-    #logging.debug('After Optimizer.')
+    logging.debug('After Optimizer.')
     
     
-    #logging.debug('Before network. in Main.')
+    logging.debug('Before network. in Main.')
     networks = optimizer.create_population(population)
-    #logging.debug('After network. in main.')
+    logging.debug('After network. in main.')
     
     for generation_no in range(generations):
         logging.info(f'***Training generation {generation_no+1} of {generations}')
@@ -94,11 +85,11 @@ def generate(generations, population, para_choice, time):
         
         train_networks(networks,generation_no, time)
         
-        #logging.debug('After train network.')
+        logging.debug('After train network.')
         
         average_accuracy = get_average_accuracy(networks)
         
-        #logging.debug('Back after accuracy in main.')
+        logging.debug('Back after accuracy in main.')
         
         logging.info(f'Generation average: {average_accuracy:.2f}')
         logging.info('-'*80)

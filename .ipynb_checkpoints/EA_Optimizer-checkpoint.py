@@ -68,12 +68,7 @@ class Optimizer():
     
     @staticmethod
     def fitness(network):
-        '''
-        Return the fitness value.
-        
-        Args:
-            network (list): list of parameters of network.
-        '''
+        "Return the fitness value."
         logging.debug('In fitness in opt.')
         
         return (network.accuracy + (network.mac_op))
