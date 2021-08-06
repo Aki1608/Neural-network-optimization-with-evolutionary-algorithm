@@ -12,12 +12,12 @@ import csv
 import datetime
 
 
-def feature_map(Hidden_Layers):
+def feature_map(Hidden_Layers: int) -> list:
     '''
     Gets a list of feature maps according to the number of hidden layer.
     
     Args: 
-        int : Number of hidden layer.
+        Hidden_Layers (int) : Number of hidden layer.
     
     Output:
         list: List of feature maps.
@@ -28,7 +28,7 @@ def feature_map(Hidden_Layers):
 
 
 #Generation of nework architecture 
-def Encoder_Decoder_Net(network, generation_no, network_no):
+def Encoder_Decoder_Net(network: list, generation_no: int, network_no: int):
     '''
     Neural network architecture design. 
     
@@ -236,7 +236,7 @@ def Encoder_Decoder_Net(network, generation_no, network_no):
     return model, Kernel_list
 
 # Generate excel file with architecture of the network.
-def architecture_info(network, Layers, Feature_Map, memory_per_layer, mac, generation_no, network_no, time):
+def architecture_info(network: list, Layers: list, Feature_Map: list, memory_per_layer: int, mac: int, generation_no: int, network_no: int, time: str) -> None:
     '''
     To generate excel file for each generated network with the info of randomly selected parameters,
     memory usage for each layer and number of operations. 
@@ -305,12 +305,10 @@ def architecture_info(network, Layers, Feature_Map, memory_per_layer, mac, gener
             row += 1
         
         worksheet.write(len(Layers) + 4, col+4, mac)
-        
-    return
     
     
 #Get number of operations and memory required
-def operations_memory (model, network, Kernel_list, generation_no, network_no, time):
+def operations_memory (model, network: list, Kernel_list: list, generation_no: int, network_no: int, time: str):
     print(f"kernel length: {(Kernel_list)}")
     #From the summery read dimension of all layers and caculate operations and memory usage. 
     with open(f'model_summary/{time}/Model_summary_{generation_no+1}_{network_no+1}.txt','w') as f:
@@ -390,7 +388,7 @@ def operations_memory (model, network, Kernel_list, generation_no, network_no, t
     return mac, memory_for_fitness, fitness_MAC, Layers, Feature_Map, memory_per_layer
     
     
-def compile_model(network, generation_no, network_no, time):
+def compile_model(network: list, generation_no: int, network_no: int, time: str):
     
     '''
     Compile the model.

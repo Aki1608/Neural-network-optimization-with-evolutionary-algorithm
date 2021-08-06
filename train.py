@@ -90,7 +90,7 @@ class DataGen(keras.utils.Sequence):
     
     
     
-def train_and_accuracy(network, generation_no, network_no, time):   
+def train_and_accuracy(network: list, generation_no: int, network_no: int, time: str):   
     
     '''
     To train the randomly created network and find get accuracy values.

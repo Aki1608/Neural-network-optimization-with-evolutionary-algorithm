@@ -37,7 +37,7 @@ class Network():
         logging.debug('In create set in network.')
         self.network = network
         
-    def train(self,generation_no, network_no, time):
+    def train(self,generation_no: int, network_no: int, time: str) -> None:
         '''Train the network and record the accuracy.
         
         Args:

@@ -22,7 +22,7 @@ class Optimizer():
         self.para_choice = para_choice
         self.all_networks = all_networks
         
-    def create_population(self, count):
+    def create_population(self, count: int) -> list:
         
         logging.debug('In create population in optimizer.')
         
@@ -67,18 +67,21 @@ class Optimizer():
         return population
     
     @staticmethod
-    def fitness(network):
+    def fitness(network: list) -> float:
         '''
         Return the fitness value.
         
         Args:
             network (list): list of parameters of network.
+            
+        Returns:
+            float: The fitness value
         '''
         logging.debug('In fitness in opt.')
         
         return (network.accuracy + (network.mac_op))
     
-    def grade(self, population):
+    def grade(self, population: int) -> float:
         """
         Find average fitness for a population.
         
@@ -97,7 +100,7 @@ class Optimizer():
         return additon / float((len(population)))
     
 
-    def mutate(self, network):
+    def mutate(self, network: list) -> list:
         """
         Randomly mutate one part of the network.
         
@@ -117,7 +120,7 @@ class Optimizer():
         
         return network
     
-    def breed(self, mother, father):
+    def breed(self, mother: dict, father: dict) -> list:
         """
         Make two children as parts of their parents.
         
@@ -152,7 +155,7 @@ class Optimizer():
         return children
     
     
-    def evolve(self, population):
+    def evolve(self, population: list) -> list:
         """
         Evolve a population of networks.
         

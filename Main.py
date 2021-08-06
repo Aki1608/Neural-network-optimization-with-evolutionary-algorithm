@@ -8,7 +8,9 @@ import datetime
 current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
 import os
-os.mkdir(f'model_summary/{current_time}')
+if not os.path.exists(f"./model_summary/{current_time}"):
+    os.makedirs(f"model_summary/{current_time}")
+
 
 import logging
 logging.basicConfig(filename=f'model_summary/{current_time}/example.log', format='%(asctime)s %(levelname)-8s %(message)s', 
@@ -20,13 +22,14 @@ from network import Network
 
 logging.debug('In main file.')
 
-def train_networks(networks,generation_no, time):
+def train_networks(networks: list,generation_no: int, time: str) -> None:
     '''
     Train each network.
     
     Args:
-        network (list): list of parameters of network.
-        dataset (str): Dataset to use for training/evaluating
+        networks (list): list of parameters of network
+        generation_no (int): generation number
+        time (str): time in "%Y%m%d-%H%M%S" format
     '''
     for i in range(len(networks)):
         Network.print_network(networks[i])
@@ -44,10 +47,10 @@ def train_networks(networks,generation_no, time):
     pbar.close()
 
 
-def get_average_accuracy(networks):
+def get_average_accuracy(networks: list) -> float:
     
     '''
-    Get the average accuracy for each generation.
+    Get the average segmentation accuracy of neural networks for each generation.
     
     Args:
         networks (list): list of network parametrs.
@@ -65,7 +68,7 @@ def get_average_accuracy(networks):
     return total_accuracy / len(networks)
 
 
-def generate(generations, population, para_choice, time):
+def generate(generations: int, population: int, para_choice: list, time: str) -> None:
     
     logging.debug('In generate function. In main file.')
     '''
@@ -78,14 +81,9 @@ def generate(generations, population, para_choice, time):
         dataset (str): Dataset to use for training/evaluating
     '''
     
-    #logging.debug('Before optimizer. IN main.')
     optimizer = Optimizer(para_choice)
-    #logging.debug('After Optimizer.')
-    
-    
-    #logging.debug('Before network. in Main.')
+
     networks = optimizer.create_population(population)
-    #logging.debug('After network. in main.')
     
     for generation_no in range(generations):
         logging.info(f'***Training generation {generation_no+1} of {generations}')
@@ -94,12 +92,8 @@ def generate(generations, population, para_choice, time):
         
         train_networks(networks,generation_no, time)
         
-        #logging.debug('After train network.')
-        
         average_accuracy = get_average_accuracy(networks)
-        
-        #logging.debug('Back after accuracy in main.')
-        
+                
         logging.info(f'Generation average: {average_accuracy:.2f}')
         logging.info('-'*80)
         
@@ -116,7 +110,7 @@ def generate(generations, population, para_choice, time):
     print_networks(networks[:])
 
     
-def print_networks(networks):
+def print_networks(networks: list) -> None:
     '''
     Print a list of networks.
     
@@ -128,7 +122,7 @@ def print_networks(networks):
         network.print_network()
         
 
-def main():    
+def main() -> None:    
     generations = 10
     population = 12
     
